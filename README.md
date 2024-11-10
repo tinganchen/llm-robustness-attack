@@ -56,5 +56,5 @@ bash run_attack_eval.sh
 
 ## References
 
-* Models & Datasets - [HuggingFace]([https://arxiv.org/abs/1903.09291](https://huggingface.co/))
+* Models & Datasets - [HuggingFace](https://huggingface.co/)
 * Adversarial Attack - [Paper](https://aclanthology.org/2021.emnlp-main.464/) 
