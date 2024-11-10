@@ -51,7 +51,7 @@ bash run_attack_eval.sh
 
 ## Results
 
-* External Link [Drive](https://docs.google.com/spreadsheets/d/1oGmjS9yNzh38bQXJLVJVCkQc5RHDuWNe5X6nsNzpZKQ/edit?usp=sharing) 
+* External Link - [Drive](https://docs.google.com/spreadsheets/d/1oGmjS9yNzh38bQXJLVJVCkQc5RHDuWNe5X6nsNzpZKQ/edit?usp=sharing) 
 
 ## References
 
