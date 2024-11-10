@@ -1,5 +1,5 @@
 # LLM Project - Analysis on Robustness of Efficient LLM Models under Attack
- (@NVIDIA Research Team, 2024)
+ (@NVIDIA Research Team, 2023)
 
 [Background] 
 
