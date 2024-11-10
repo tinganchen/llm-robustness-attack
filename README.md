@@ -1,14 +1,15 @@
-# CNN pruning - GAL, CVPR 2019
-[Reproduce] Pruning, model compression, generative adversarial network.
+# LLM Project - Analysis on Robustness of Efficient LLM Models under Attack (@NVIDIA Research Team, 2024)
+[Background] 
 
-## References
+* Language models suffer from large memory and computation costs
+* Recent research have been proposed to compress the models for memory efficiency and acceleration, such as quantization which reduces the precisions of weights and activations
 
-Towards Optimal Structured CNN Pruning via Generative Adversarial Learning (GAL), CVPR 2019.
-* [Paper](https://arxiv.org/abs/1903.09291)
-* [Github](https://github.com/ShaohuiLin/GAL) 
+[Challenge]
 
-FLOP calculation tool- *ptflops*
-* [Github](https://github.com/sovrasov/flops-counter.pytorch) 
+* Is the quantization process robust? [No]
+* Under the experiments, the models compressed to lower bits are more sensitive to the attack on the text data
+* The performance degrades drastically at low bits
+
 
 ## Requirements
 
@@ -18,36 +19,41 @@ FLOP calculation tool- *ptflops*
 * numpy==1.19.2
 * tensorboardx==1.4
 
-## Experiment
-ResNet-56 on CIFAR-10. (Image classification)
+## Experiments
 
+Task                | LLM Models               | Evaluation Metric   | Datasets  
+---                  |---                  |---                                    |---                    
+Text Generation |GPT-2 (124M) & OPT (1.3B)           | Perplexity                                    | WikiText-2 & PTB & C4           
+Word Prediction |GPT-2 (124M)           | Accuracy (%)                                   | Lambada
 
 ## Implementation
 
-### Pretrained model preparation
+### Task - Word Prediction (eg. GPT-2 on Lambada)
 
-The pretrained weights are downloaded from GAL ([Github](https://github.com/ShaohuiLin/GAL)).
-
-
-### Training & structure pruning stage
-
-More details of the arguments refer to [options.py](./utils/options.py).
+#### Inference of low-bit models
 
 ```shell
-python main.py --job_dir <experiment_results_dir> --teacher_dir <pretrain_weights_dir> --teacher_file <pretrain_weights_file> --refine None --arch resnet --teacher_model resnet_56 --student_model resnet_56_sparse --num_epochs 100 --train_batch_size 128 --eval_batch_size 100 --lr 0.01 --momentum 0.9 --miu 1 --sparse_lambda 0.6 --lr_decay_step 30 --mask_step 200 --weight_decay 0.0002
+cd word_prediction/
+bash run.sh
 ```
 
-### Fine-tuning stage
+#### Attack 
 
 ```shell
-python finetune.py --job_dir <finetuning_results_dir> --refine <experiment_results_dir> --num_epochs 30 --lr 0.01
+bash run_attack.sh
 ```
 
-### Results
+### Evaluation accuracy of attacked models
 
-Model                | Stage               | #Sructures (blocks)   | FLOPs (pruned ratio)  | #Param (pruned ratio) | Top-1 accuracy
----                  |---                  |---                                    |---                    |---                         |---     
-Resnet-56 (Original) |Pretrained           | 27                                    |125.49M (0%)           |0.85M (0%)                  | 93.26  
-Resnet-56 (Sparse)   |Training & Pruning   | 27                                    |125.49M (0%)           |0.85M (0%)                  | 91.72      
-Resnet-56 (Pruned)   |Pruned & Fine-tuning | 17                                    |79.24M (37.7%)         |0.67M (21.7%)               | 92.22       
+```shell
+bash run_attack_eval.sh
+```
 
+## Results
+
+* External Link [Drive](https://docs.google.com/spreadsheets/d/1oGmjS9yNzh38bQXJLVJVCkQc5RHDuWNe5X6nsNzpZKQ/edit?usp=sharing) 
+
+## References
+
+* Models & Datasets - [HuggingFace]([https://arxiv.org/abs/1903.09291](https://huggingface.co/))
+* Adversarial Attack - [Paper](https://aclanthology.org/2021.emnlp-main.464/) 
